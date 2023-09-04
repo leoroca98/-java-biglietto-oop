@@ -23,4 +23,20 @@ public class Biglietto {
         return eta > 0;
 
     }
+
+    private BigDecimal calcolaSconto() {
+        if (eta >= 65) {
+            return SCONTO_OVER_65;
+        } else if (eta < 18) {
+            return SCONTO_MINORENNI;
+        } else {
+            return BigDecimal.ZERO;
+        }
     }
+
+    public BigDecimal calcolaPrezzo() {
+        BigDecimal prezzoBase = COSTO_CHILOMETRICO.multiply(new BigDecimal(km));
+        BigDecimal sconto = calcolaSconto();
+        return prezzoBase.subtract(prezzoBase.multiply(sconto));
+    }
+}
